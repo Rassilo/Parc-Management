@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "PostLogin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@if (Session["login"] != null)
+{
+    <h2>bonjour @Session["login"].ToString() </h2>
+
+    <p>
+        @Html.ActionLink("Gerer les Articles", "../Article/Index");
+    </p>
+}

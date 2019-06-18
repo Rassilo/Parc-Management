@@ -1,0 +1,36 @@
+﻿@model IEnumerable<ParcProject.Models.Articles>
+
+    @{
+        ViewBag.Title = "listeArticleId";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    <h2>listeArticleId</h2>
+@{ 
+   /* <tr>
+        <td> Populating With ViewData Data </td>
+        <td>
+            @Html.DropDownList("MySkills", (IEnumerable <SelectListItem>)ViewData["MySkills"])
+        </td>
+    </tr>*/
+}
+@using (Html.BeginForm())
+{
+@Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+        
+        <select class="form-control" name="selectID">
+        @foreach (var item in Model)
+        {
+            <option  value="@Html.DisplayFor(modelItem => item.articleId)">@Html.DisplayFor(modelItem => item.articleId)</option>
+        }
+        </select>
+   
+     <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="valider" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+    }

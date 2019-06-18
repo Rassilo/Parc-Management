@@ -1,0 +1,219 @@
+﻿@model ParcProject.Models.Details
+@using ParcProject.Models;
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CC)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CC)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.kwFrom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.kwFrom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.kwTo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.kwTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HpFrom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HpFrom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HpTo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HpTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AnneeDe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AnneeDe)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AnneeA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AnneeA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Carrosserie)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Carrosserie)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.valves)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.valves)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cylinder)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cylinder)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CodeMoteur)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CodeMoteur)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TypeCarburant)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TypeCarburant)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CarburantProcess)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CarburantProcess)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date_Dev)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date_Dev)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date_Dev2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date_Dev2)
+        </dd>
+
+    </dl>
+</div>
+
+
+<p><b>Article List</b></p>
+
+<table class="table" id="table">
+    <thead>
+        <tr>
+            <th>Article Id</th>
+            <th>Sort</th>
+        </tr>
+    </thead>
+  <tbody>
+      @foreach (getArticleIdsWithState article in ViewBag.articles)
+      {
+          <tr>
+              <td>@article.articleID</td>
+              <td>
+                  @if (article.SortNo == 1)
+                {
+                      <input id="check,@article.articleID" checked type="checkbox" />
+                  }
+                  else
+                  {
+                      <input id="check,@article.articleID" type="checkbox" />
+                  }
+
+              </td>
+          </tr>
+      }
+  </tbody>
+</table>
+@{ Html.RenderAction("AssignArticle", new { id = Model.carId });}
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.carId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+
+@section scripts{
+<script>
+
+    $(document).ready(function () {
+        $('#table').DataTable({
+            "paging": 50 ,
+            "iDisplayLength": 50
+        });
+
+        console.log("it's ready");
+        $('input[type="checkbox"]').change(function () {
+            str = this.id.split(",");
+            let carid = @Model.carId;
+            let articleid = str[1];
+            let sort = 0;
+            console.log(this.checked);
+            var ga = new Object();
+           
+            if(this.checked){
+                sort = 1
+            }
+            ga.carID = carid;
+            ga.articleID = articleid;
+            ga.SortNo = sort;
+            
+            $.ajax({
+                url: '/Details/UpdateDetails',
+                datatype: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(ga), 
+                success: function(data){
+                    console.log("updated");
+                    console.log(data);
+                },
+                error: function(){
+                    console.log("error");
+                }
+            });
+        });
+    });
+
+</script>
+
+}

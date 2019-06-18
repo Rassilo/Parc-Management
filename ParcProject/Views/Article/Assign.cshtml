@@ -1,0 +1,177 @@
+﻿@using ParcProject.Models;
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row m-b-30">
+    <div class="col-md-6">
+        <div class="card" style="width:100%">
+            <div class="card-header">Search</div>
+            <div class="card-body">
+                <div class="card-title">
+                    <h3 class="text-center title-2">Search By Values</h3>
+                </div>
+                <p id="errorMsg" style="color:red"></p>
+                <hr />
+                <form id="form">
+                    <div class="form-group">
+                        Article Number  <input id="nbArticle" class="form-control" type="text" name="nbArticle" placeholder="Article Number" />
+                    </div>
+                    <input id="Search" class="btn btn-success" value="Search" type="submit">
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="col-md-6">
+        <div class="card" style="width:100%">
+            <div class="card-header">Select</div>
+            <div class="card-body">
+                <div class="card-title">
+                    <h3 class="text-center title-2">Select Car id</h3>
+                </div>
+                <p id="errorMsg" style="color:red"></p>
+                <hr />
+                <form id="form">
+                    <div class="form-group">
+                        Car Id :
+                        <select name="carId" id="carId" class="form-control">
+                            <option selected value="-1">Select a carId</option>
+                            @foreach (Details d in ViewBag.details)
+                            {
+                                if (ViewBag.detail != null)
+                                {
+                                    if (ViewBag.detail.carId == d.carId)
+                                    {
+                                        <option selected value="@d.carId">@d.carId</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@d.carId">@d.carId</option>
+                                    }
+                                }
+                                else
+                                {
+                                    <option value="@d.carId">@d.carId</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row m-b-30">
+    <h4>Results for <span id="search"></span></h4>
+</div>
+<div class="row m-b-30">
+    <div id="resultmsg"></div>
+</div>
+<div class="row m-b-30">
+    <div class="table-responsive table--no-card m-b-30">
+        <table id="table" class="table-borderless table-striped table-earning">
+            <thead>
+            <th>id</th>
+            <th>name</th>
+            <th>Action</th>
+            </thead>
+            <tbody id="tablebody"></tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts{
+    
+    <script>
+        $("#table").hide();
+        function Assign(ida) {
+            var carid = $('#carId').val();
+            if (carid != -1){
+                $.ajax({
+
+                    url: '/Article/assignDetail',
+                    type: "post",
+                    data: {
+                        "idCar": carid,
+                        "articleId" : ida
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        if (data == "exist") {
+                            alert("already assigned");
+                        } else {
+                            alert("assign success");
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+
+                });
+            } else {
+                alert("please select car id");
+            }
+            console.log(ida);
+        }
+        $(document).ready(function () {
+          
+
+            $("#Search").click(function (e) {
+                e.preventDefault();
+                $("#errorMsg").html("");
+                var nbarticle = $("#nbArticle").val();
+
+                var word = nbarticle;
+                var key = "Article Numre";
+                var action = 'SearchingArticle';
+                var data = { "nba": nbarticle };
+
+                $("#tablebody").html("");
+                $("#resultmsg").html("");
+                $("#search").html("");
+                $("#search").append(key + ": " + word);
+
+                if (nbarticle.length > 0 && nbarticle != null) {
+                    loadData(action, data, key, word);
+                } else {
+                    $("#errorMsg").append("select article please");
+                }
+
+            });
+
+            function loadData(action,data,key,word) {
+                $.ajax({
+                    url: '/Article/' + action,
+                    type: "post",
+                    data: data,
+                    success: function (data) {
+                        console.log(data);
+                        if (data.length > 0) {
+                            $("#table").show();
+                        } else {
+                            $("#resultmsg").append("no result found for " + key + ": " + word);
+                        }
+                        data.forEach(function (element) {
+                            var row = "<tr>"
+                            row += "<td>" + element.articleId + "</td>";
+                            row += "<td>" + element.articleName + "</td>";
+                            row += "<td><button class='btn btn-success' onClick='Assign(" + element.articleId + ")' >Assign</button></td>"
+                            row += "</tr>"
+                            $("#tablebody").append(row);
+                        })
+                    },
+                    error: function () {
+                        console.log("error");
+                    }
+                });
+            }
+        });
+
+
+    </script>    
+
+}

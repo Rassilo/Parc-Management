@@ -1,0 +1,23 @@
+﻿@using ParcProject.Models;
+@{ 
+
+    Articles article = ViewBag.article;
+    Layout = null;
+}
+<p><b>Assign Origin</b></p>
+<form action="/Article/AssignOrigin" method="post">
+
+    <input type="hidden" name="articleId" value="@article.articleId" />
+    <br />
+    <div>
+        origin Id :
+        <select class="form-control"  name="originId">
+            @foreach (OriginesOEN origin in ViewBag.restOrigins)
+            {
+                <option value="@origin.oeNumber">@origin.oeNumber</option>
+            }
+        </select>
+    </div>
+    <input type="submit" class="role member" value="Affecter" />
+</form>
+

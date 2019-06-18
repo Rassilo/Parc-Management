@@ -1,0 +1,26 @@
+﻿@using ParcProject.Models;
+@{
+    ViewBag.Title = "AssignArticle";
+    Layout = null;
+    Details detail = ViewBag.detail;
+}
+
+<h2>AssignArticle</h2>
+
+<form action="/Details/AssignArticle" method="post">
+
+    <input type="hidden" name="detailId" value="@detail.carId" />
+    <input type="text" placeholder="sort number" name="sort" />
+    <br />
+    <div>
+        Article Id :
+        <select name="articleId">
+            @foreach (Articles article in ViewBag.restArticles)
+            {
+                <option value="@article.articleId">@article.articleName</option>
+            }
+        </select>
+    </div>
+    <input type="submit" value="Affecter" />
+</form>
+

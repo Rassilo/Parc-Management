@@ -1,0 +1,42 @@
+﻿@model IEnumerable<ParcProject.Models.Model>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.manuId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.modelName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+ 
+        <td>
+            @Html.Action("ManufacterName","Model",  new { id = @Html.DisplayFor(modelItem => item.manuId) })
+            
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.modelName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ModelId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ModelId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ModelId })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,77 @@
+﻿@model ParcProject.Models.Articles
+
+@{
+    ViewBag.Title = "rechercher";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>rechercher</h2>
+<script>
+
+bootbox.alert({
+        message: '@ViewBag.Message',
+        size:'large'
+});
+</script>
+
+<div style="color:red">
+    @ViewBag.Message
+</div>  
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Articles</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.articleId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.articleId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.articleId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="chercher" class="btn btn-default" id="myBtn" />
+            </div>
+        </div>
+    </div>
+    /* des vues s'affichent lorsque je saisi l'ID et je clic sur le boutton
+
+    -- Affdetailles -> methodes dans le controleur qui retourne un vue
+     */
+
+
+                }
+
+@{
+    /* ici j'ai  essaye de faire un script qui permet d'appeler les vues lors de l'appui sur le boutton
+     ** jai essaye de ajoute ce code **  @{ Html.RenderAction("Affdetailles", new { id = 0 });}  **  avec innerHtml et avec insertAdjecentHTML et d'autre methodes
+     * mais le code .Net s'execute avant tous
+     * RQ: si j'joute une simple balise une phrase sa marche mais un code .Net non
+
+
+<script>
+    // parent = document.getElementById("Affdetailles")
+    // var p = document.createElement("p");
+
+    //parent.append(p);
+    //id = document.getElementById("Affdetailles");
+    document.getElementById("myBtn").addEventListener("click", function () {
+
+        document.getElementById("Affdetailles").insertAdjacentText("afterbegin", '@{ Html.RenderAction("Affdetailles", new { id = 0 });}');
+        //document.getElementById("Affdetailles").insertAdjacentHTML =("afterbegin",@{ Html.RenderAction("Affdetailles", new { id = 0 });} ;);
+        //document.getElementById("Affdetailles")..innerHTML='@{ Html.RenderAction("Affdetailles", new { id = 0 });}' ;
+    });
+
+
+
+</script>
+*/
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

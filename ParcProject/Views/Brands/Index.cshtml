@@ -1,0 +1,83 @@
+﻿@model IEnumerable<ParcProject.Models.Brand>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    /*
+    if (Session["login"] != null)
+    {
+         if(Session["role"].ToString() != "admin")
+         {
+             Response.Redirect("~/Article");
+         }
+    }*/
+}
+
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-borderless table-data3"  id="dtBasicExample">
+   <thead>
+       <tr>
+           <th>
+               @Html.DisplayNameFor(model => model.brandName)
+           </th>
+           <th>
+               @Html.DisplayNameFor(model => model.NAVbrandName)
+           </th>
+           <th>
+               @Html.DisplayNameFor(model => model.BrandConfiance)
+           </th>
+           <th>
+               @Html.DisplayNameFor(model => model.Note)
+           </th>
+           <th>
+
+           </th>
+       </tr>
+   </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.brandName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NAVbrandName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BrandConfiance)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Note)
+                </td>
+                <td>
+                   <a href="/Brands/Edit/@item.brandNo" class="btn btn-info">Edit</a> |
+                    <a href="/Brands/Details/@item.brandNo" class="btn btn-success">Details</a> |
+                    @if (Session["login"] != null)
+                    {
+                        if (Session["role"].ToString() == "admin")
+                        {
+                            <a href="/Brands/Delete/@item.brandNo" class="btn btn-danger">Delete</a>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#dtBasicExample').DataTable({
+                "paging": 10 // false to disable pagination (or any other option)
+            });
+        });
+    </script>
+}

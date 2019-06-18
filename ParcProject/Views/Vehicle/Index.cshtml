@@ -1,0 +1,42 @@
+﻿@model IEnumerable<ParcProject.Models.Vehicle>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Vehicle List</h2>
+
+<p>
+    <a href="/Article/Create" class="btn btn-info">Create New</a>
+</p>
+<table  id="test"  class="table">
+     <thead>
+        <tr>
+            <th>Vin</th>
+        </tr>
+    </thead>
+    <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.EntryVin
+                    </td>
+                </tr>
+            }
+    </tbody>
+</table>
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#table_id').DataTable();
+            $('#test').DataTable({
+                "paging": 10 // false to disable pagination (or any other option)
+            });
+            $('.dataTables_length').addClass('bs-select');
+        });
+    </script>
+}

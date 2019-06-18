@@ -1,0 +1,83 @@
+﻿@model IEnumerable<ParcProject.Models.OriginesOEN>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table" id="dtBasicExample">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.blockNumber)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.SearchoeNumber)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.blockNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SearchoeNumber)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.oeNumber }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.oeNumber }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.oeNumber })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            waitForElement(".paginate_button", function () {
+                $("a.paginate_button").each(function (i,element) {
+                    $(element).attr("href", "#!");
+                });
+                $("a.paginate_button").click(function (e) {
+                    $("a.paginate_button").each(function (i, element) {
+                        $(element).attr("href", "#!");
+                    });
+                });
+            });
+            $(document).ready(function () {
+                $('#dtBasicExample').DataTable({
+                    "paging": 10 // false to disable pagination (or any other option)
+                });
+                $('.dataTables_length').addClass('bs-select');
+            });
+        });
+        $(document).on("click","a.paginate_button",function (e) {
+            $("a.paginate_button").each(function (i, element) {
+                $(element).attr("href", "#!");
+            });
+        });
+        function waitForElement(elementPath, callBack) {
+            window.setTimeout(function () {
+                if ($(elementPath).length) {
+                    callBack(elementPath, $(elementPath));
+                } else {
+                    waitForElement(elementPath, callBack);
+                }
+            }, 500)
+        }
+    </script>
+}
+

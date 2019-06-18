@@ -1,0 +1,145 @@
+﻿@model ParcProject.Models.Details
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CC)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CC)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.kwFrom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.kwFrom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.kwTo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.kwTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HpFrom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HpFrom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HpTo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HpTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AnneeDe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AnneeDe)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AnneeA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AnneeA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Carrosserie)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Carrosserie)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.valves)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.valves)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cylinder)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cylinder)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CodeMoteur)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CodeMoteur)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TypeCarburant)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TypeCarburant)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CarburantProcess)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CarburantProcess)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date_Dev)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date_Dev)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date_Dev2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date_Dev2)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

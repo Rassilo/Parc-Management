@@ -1,0 +1,323 @@
+﻿@using ParcProject.Models;
+
+
+@{
+    ViewBag.Title = "ResRecherche";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@{
+    Articles article = ViewBag.article as Articles;
+    ArticleAttributes attributes = ViewBag.plusDetail as ArticleAttributes;
+
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4>Articles Details</h4>
+            </div>
+            <div class="card-body">
+                <div><strong>Name             :</strong> @article.articleName</div>
+                <div><strong>No               :</strong> @article.articleNo</div>
+                <div><strong>Article State    :</strong> @article.articleState</div>
+                <div><strong>articleStateName :</strong> @article.articleStateName</div>
+                <div><strong>brandNo          :</strong> @article.brandNo</div>
+                <div><strong>genericArticleId :</strong> @article.genericArticleId</div>
+                <div><strong>packingUnit      :</strong> @article.packingUnit</div>
+                <div><strong>Date_Dev         :</strong> @article.Date_Dev</div>
+                <div><strong>articleNo2       :</strong> @article.articleNo2</div>
+                <div><strong>ArticleNAV       :</strong> @article.ArticleNAV</div>
+            </div>
+
+            <a href="/Article/Edit/@article.articleId" class="role user">Edit</a>
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <div id="jssor_1" style="position:relative;margin:0 auto;top:0px;left:0px;width:980px;height:380px;overflow:hidden;visibility:hidden;">
+                <div data-u="slides" style="cursor:default;position:relative;top:0px;left:0px;width:980px;height:380px;overflow:hidden;">
+                    @foreach (Images img in ViewBag.images)
+                    {
+                        <div>
+                            <img data-u="image" src="~/Uploads/@img.docFileName" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="row">
+             <a href="/Article/AddArticleImages/@article.articleId" class="role user">Add images</a>
+        </div>
+    </div>
+</div>
+<br /><hr /><br />
+<p><b>Cousins List</b></p>
+@if (ViewBag.cousins.Count > 0)
+{
+    <table class="table table-responsive">
+        <tr>
+            <th>Article Id</th>
+            <th>Name</th>
+            <th>nav</th>
+        </tr>
+        @foreach (Articles a in ViewBag.cousins)
+        {
+            <tr>
+                <td>@a.articleId</td>
+                <td>@a.articleName</td>
+                <td>@a.ArticleNAV</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>No cousins found</p>
+}
+<br /><hr /><br />
+
+
+<p><b>Details List</b></p>
+@if (ViewBag.attrs.Count > 0)
+{
+    <table class="table table-responsive">
+        <tr>
+            <th>car Id</th>
+            <th>Sort</th>
+        </tr>
+        @foreach (getArticleIdsWithState a in ViewBag.attrs)
+        {
+            <tr>
+                <td>@a.carID</td>
+                <td>
+                    @if (a.SortNo == 1)
+                    {
+                        <input id="detail,@a.carID" checked type="checkbox" />
+                    }
+                    else
+                    {
+                        <input id="detail,@a.carID" type="checkbox" />
+                    }
+
+                </td>
+                <td>
+                   @if (Session["role"].ToString() == "admin")
+                   {
+                    <form action="/Origin/RemoveDetail" method="Post">
+                        <input type="hidden" name="articleId" value="@article.articleId" />
+                        <input type="hidden" name="carId" value="@a.carID" />
+                        <input type="submit" class="btn btn-danger" value="Delete" />
+                    </form>
+                   }
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>No Details found</p>
+}
+<br /><hr /><br />  
+<p><b>Origin List</b></p>
+@if (ViewBag.origins.Count > 0)
+{
+    <table class="table table-data2">
+       <thead>
+           <tr>
+               <th>OEN Id</th>
+               <th>Sort Number</th>
+               <th>Action</th>
+           </tr>
+       </thead>
+        <tbody>
+            @foreach (ArticleOrigin origin in ViewBag.origins)
+            {
+                <tr>
+                    <td>@origin.oeNumber</td>
+                    <td>
+                        @if (origin.SortNo == 1)
+                    {
+                    <input id="origin,@origin.oeNumber" checked type="checkbox" />
+                    }
+                    else
+                    {
+                    <input id="origin,@origin.oeNumber" type="checkbox" />
+                    }
+
+                    </td>
+                    <td>
+                        @if (Session["role"].ToString() == "admin") { 
+                            <form action="/Origin/RemoveOrigin" method="Post">
+                                <input type="hidden" name="articleId" value="@article.articleId" />
+                                <input type="hidden" name="originId" value="@origin.oeNumber" />
+                                <input type="submit" class="btn btn-danger" value="Delete" />
+                            </form>
+                        }
+                    </td>
+                </tr>
+                <tr class="spacer"></tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p> No Origins found</p>
+}
+<br /><hr /><br />
+
+<div class="row">
+    <div class="col-md-6">
+        @{ Html.RenderAction("AssignDetails", new { id = article.articleId });}
+    </div>
+    <div class="col-md-6">
+        @{ Html.RenderAction("AssignOrigin", new { id = article.articleId });}
+    </div>
+
+</div>
+<br /><hr /><br />
+
+<p>
+    @Html.ActionLink("Add Details", "AssignDetail", new { id = article.articleId })
+
+</p>
+
+<div>
+    <h4>ArticleAttributes</h4>
+    <table class="table table-data2">
+        <thead>
+            <tr>
+                <th>Attribute Name</th>
+                <th>Attribute Type</th>
+                <th>Attribute Unit</th>
+                <th>Attribute Value</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ArticleAttributes a in ViewBag.Attrlst)
+            {
+                <tr>
+                    <td>@a.attrName</td>
+                    <td>@a.attrType</td>
+                    <td>@a.attrUnit</td>
+                    <td>@a.attrValue</td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditArticleAttributes", new { id = @a.articleId })
+                    </td>
+                </tr>
+                <tr class="spacer"></tr>
+            }
+        </tbody>
+    </table>
+
+
+</div>
+
+
+
+@section scripts{
+    <script>
+
+    $(document).ready(function () {
+
+        console.log("it's ready");
+        $('input[type="checkbox"]').change(function () {
+            str = this.id.split(",");
+            let type =str[0];
+            let carid =str[1];
+            let articleid = @article.articleId;
+            let sort = 0;
+            console.log(this.checked);
+            var ga = new Object();
+
+            var oa = new Object();
+            if(this.checked){
+                sort = 1
+            }
+            oa.articleID = articleid;
+            oa.SortNo = sort;
+            oa.oeNumber = carid;
+
+            ga.carID = carid;
+            ga.articleID = articleid;
+            ga.SortNo = sort;
+
+
+            let action = "/Details/UpdateDetails";
+            let object = ga;
+            if(type == "origin"){
+                object = oa;
+                action = "/Origin/UpdateOrigin"
+            }
+            console.log(ga);
+            $.ajax({
+                url: action,
+                datatype: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(object),
+                success: function(data){
+                    console.log("updated");
+                    console.log(data);
+                },
+                error: function(){
+                    console.log("error");
+                }
+            });
+        });
+    });
+
+    </script>
+    <script src="~/Content/js/jssor.slider.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        jssor_1_slider_init = function() {
+
+            var jssor_1_options = {
+              $AutoPlay: 1,
+              $Idle: 2000,
+            };
+
+            var jssor_1_slider = new $JssorSlider$("jssor_1", jssor_1_options);
+
+
+
+            var MAX_WIDTH = 980;
+
+            function ScaleSlider() {
+                var containerElement = jssor_1_slider.$Elmt.parentNode;
+                var containerWidth = containerElement.clientWidth;
+
+                if (containerWidth) {
+
+                    var expectedWidth = Math.min(MAX_WIDTH || containerWidth, containerWidth);
+
+                    jssor_1_slider.$ScaleWidth(expectedWidth);
+                }
+                else {
+                    window.setTimeout(ScaleSlider, 30);
+                }
+            }
+
+            ScaleSlider();
+
+        };
+        jssor_1_slider_init();
+    </script>
+}
+
+@section styles{
+    <style>
+        .jssorl-009-spin img {
+            animation-name: jssorl-009-spin;
+            animation-duration: 1.6s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+        }
+    </style>
+}

@@ -1,0 +1,81 @@
+﻿@model ParcProject.Models.Vehicle
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Vehicle</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.VIN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VIN)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.manuId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.manuId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.modelId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.modelId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.carId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.carId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.vehicleTypeDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.vehicleTypeDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.carName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.carName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Load_Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Load_Type)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

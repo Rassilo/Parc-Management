@@ -1,0 +1,95 @@
+﻿@model ParcProject.Models.ArticleAttributes
+
+@{
+    ViewBag.Title = "Plusdetailles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Plusdetailles</h2>
+
+<div>
+    <h4>ArticleAttributes</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.attrBlockNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.attrBlockNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.attrIsConditional)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.attrIsConditional)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.attrIsInterval)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.attrIsInterval)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.attrIsLinked)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.attrIsLinked)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.attrName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.attrName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.attrShortName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.attrShortName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.attrType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.attrType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.attrUnit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.attrUnit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.attrValue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.attrValue)
+        </dd>
+
+    </dl>
+
+    @Html.HiddenFor(model => model.attrValueId)
+
+    @Html.HiddenFor(model => model.articleId)
+</div>
+<p>
+    @Html.ActionLink("Edit", "EditArticleAttributes", new { id = @Html.DisplayFor(model => model.articleId) }   ) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,86 @@
+﻿@model IEnumerable<ParcProject.Models.Details>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+S
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table" id="dtBasicExample">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Carrosserie)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.valves)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.cylinder)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CodeMoteur)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeCarburant)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CarburantProcess)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CC)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Carrosserie)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.valves)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cylinder)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CodeMoteur)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TypeCarburant)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CarburantProcess)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.carId }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.carId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.carId })
+                </td>
+            </tr>
+            <tr class="spacer"></tr>
+        }
+    </tbody>
+</table>
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#dtBasicExample').DataTable({
+                "paging": 10 // false to disable pagination (or any other option)
+            });
+            $('.dataTables_length').addClass('bs-select');
+        });
+    </script>
+}

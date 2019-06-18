@@ -1,0 +1,79 @@
+﻿@model IEnumerable<ParcProject.Models.Log>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.tableName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.operation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.userName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.clePrimU)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.clePrimD)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.clePrimT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ancienneValeur)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nouvelleValeur)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.champs)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.tableName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.operation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.userName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.clePrimU)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.clePrimD)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.clePrimT)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ancienneValeur)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.nouvelleValeur)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.champs)
+        </td>
+    </tr>
+}
+</table>

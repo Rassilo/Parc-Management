@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Application PARC </title>
+    <link href="~/Content/~/Content/site.css" rel="stylesheet" />
+    <link href="~/Content/~/Content/bootstrap.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Nom de l'application", "Index", "Article", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Accueil", "Index", "Article")</li>
+                    <li>@Html.ActionLink("Article", "Index", "Article")</li>
+                    <li>@Html.ActionLink("Vehicle", "Index", "Vehicle")</li>
+                    <li>@Html.ActionLink("Detail", "Index", "Details")</li>
+                    <li>@Html.ActionLink("Model", "Index", "Model")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    <script src="~/Content/~/scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Content/~/scripts/jquery.validate.min.js"></script>
+    <script src="~/Content/~/scripts/bootstrap.min.js"></script>
+    <script src="~/Content/~/scripts/jssor.slider.min.js"></script>
+    <script src="~/Content/~/scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Content/~/scripts/respond.js"></script>
+    <script src="~/Content/~/scripts/ai.0.22.9-build00167.min.js"></script>
+    @RenderSection("scripts",false)
+</body>
+</html>

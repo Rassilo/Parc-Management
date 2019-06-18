@@ -1,0 +1,27 @@
+﻿@using ParcProject.Models;
+@{
+    ViewBag.Title = "AddArticleImages";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>AddArticleImages @ViewData["id"]   </h2>
+
+<h2>Basic File Upload</h2>
+@using (Html.BeginForm("UploadImage", "Article", FormMethod.Post, new { enctype = "multipart/form-data" })) { 
+    <label for="file">Upload Image:</label>
+    <input type="file" name="FileImage" id="FileImage" /><br><br>
+    <input type="hidden" name="IdArticle" id="IdArticle" value="@ViewBag.id" /><br><br>
+    <input type="submit" value="Upload Image" />
+    <br><br>
+}
+<div class="row">
+    @foreach(Images i in ViewBag.images)
+    {
+        <div class="col-md-4">
+            <img src="~/Uploads/@i.docFileName" alt="img"/>
+        </div>
+    }
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

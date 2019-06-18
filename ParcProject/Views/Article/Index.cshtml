@@ -1,0 +1,83 @@
+﻿
+@model IEnumerable<ParcProject.Models.Articles>
+
+    @{
+        Layout = "~/Views/Shared/_Layout.cshtml";
+        ViewBag.Title = "Index";
+    }
+    <h2>Index</h2>
+    <a class="btn btn-successs" >hello</a>   
+    @if (Session["login"] != null)
+    {
+        <h2>bonjour @Session["login"].ToString()  </h2>
+    }
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <p>
+        @Html.ActionLink("recherche", "rechercher")
+    </p>
+
+    <table class="table"  id="dtBasicExample">
+        <thead>
+            <tr>
+                <th>
+                   Id
+                </th>
+                <th>
+                   Name
+                </th>
+                <th>
+                   Number
+                </th>
+                <th>
+                   Generic Id
+                </th>
+
+                <th> </th>
+                <th>Action</th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.articleId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.articleName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.articleNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.genericArticleId)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "ResRecherche", new { id = item.articleId })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Delete", "Delete", new { id = item.articleId })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Affdetailles", new { id = item.articleId })
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+    @section scripts{
+        <script>
+            $(document).ready(function () {
+                $('#dtBasicExample').DataTable({
+                    "paging": 10 // false to disable pagination (or any other option)
+                });
+            });
+       </script>  
+    }

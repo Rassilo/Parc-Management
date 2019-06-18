@@ -1,0 +1,354 @@
+﻿@using ParcProject.Models;
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row m-b-30">
+    <div class="card" style="width:100%">
+        <div class="card-header">Search</div>
+        <div class="card-body">
+            <div class="card-title">
+                <h3 class="text-center title-2">Search By Values</h3>
+            </div>
+            <p id="errorMsg" style="color:red"></p>   
+            <hr/>  
+            <form id="form">
+                <div class="form-group" style="text-align: center">
+                    <h4>
+                        Serie : 
+                        <label style="display: inline-grid;bottom: 10px;" class="au-checkbox">
+                            <input checked value="serie" type="checkbox" name="group1[]" />
+                            <span class="au-checkmark"></span>
+                        </label>
+                    </h4> 
+                    <br />
+                    <input id="serie" class="form-control" type="text" name="serie" placeholder="Serie" />
+                </div>
+                <br />
+                <hr />
+                <br />
+                <div class="form-group"  style="text-align: center">
+                    <h4>Vin :  
+                        <label style="display: inline-grid;bottom: 10px;" class="au-checkbox">
+                            <input value="vin" type="checkbox" name="group1[]" />
+                            <span class="au-checkmark"></span>
+                        </label>
+                    </h4>
+                    <input id="vin" class="form-control" type="text" name="vin" placeholder="vin" />
+                </div>
+                <br />
+                <hr />
+                <br />
+                <div class="form-group" style="text-align:center">
+                    <h4>
+                        Model : 
+                        <label style="display: inline-grid;bottom: 10px;" class="au-checkbox">
+                            <input value="model" type="checkbox" name="group1[]" />
+                            <span class="au-checkmark"></span>
+                        </label>
+                    </h4>
+                   <div class="row">
+                       <div class="col-md-6" >
+                           Brand :
+                           <select id="brandSection" name="brandId" class="form-control">
+                               <option selected value="-1">Select a brand</option>
+                               @foreach (Manufacter b in ViewBag.Manufacter)
+                               {
+                                   <option value="@b.manuID">@b.manuName</option>
+                               }
+                           </select>
+                       </div>
+                       <div class="col-md-6">
+                           Model :
+                           <select name="modelId" id="modelSection"  class="form-control">
+                               <option disabled selected value="-1">Select a Model</option>
+                           </select>
+                       </div>
+                       <div class="col-md-6">
+                           Car id :
+                           <select name="idcar" id="idcar" class="form-control">
+                               <option disabled selected value="-1">Select a car id</option>
+                           </select>
+                       </div>
+                   </div>
+                </div>
+                <br />
+                <hr/>
+                <br />
+                <div class="form-group" style="text-align:center">
+                    <h4>
+                        Car Id :
+                        <label style="display: inline-grid;bottom: 10px;" class="au-checkbox">
+                            <input value="carid" type="checkbox" name="group1[]" />
+                            <span class="au-checkmark"></span>
+                        </label>
+                    </h4>
+                    <input class="form-control" type="text" id="carId" name="carId" value="" placeholder="Car Id" />
+                </div>
+                <hr />
+                <input id="Search" class="btn btn-success" value="Search" type="submit">
+            </form>
+        </div>
+
+    </div>
+</div>
+<div class="row m-b-30">
+    <h4>Results for <span id="search"></span></h4>
+</div>
+<div class="row m-b-30">
+    <div id="resultmsg"></div>
+</div>
+<div class="row m-b-30">
+    <div class="col-md-8">
+        <div class="table-responsive table--no-card m-b-30">
+            <table id="table" class="table-borderless table-striped table-earning">
+                <thead>
+                <th>id Article</th>
+                <th>id car</th>
+                <th>Sort No</th>
+                <th>Assign</th>
+                </thead>
+                <tbody id="tablebody"></tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-4">
+            <h4>Article Details</h4>
+            <div id="articleSection">
+
+            </div>  
+    </div>
+</div>
+
+@section scripts{
+    
+    <script>
+        $("#table").hide();
+        table = null;
+
+        $(document).ready(function () {
+
+            $('input[type="checkbox"]').on('change', function () {
+                $('input[name="' + this.name + '"]').not(this).prop('checked', false);
+                var chekcked = $("input[name='group1[]']:checked").val();
+                console.log(chekcked);
+            });
+
+            $("#Search").click(function (e) {
+                e.preventDefault();
+                $("#errorMsg").html("");
+                var vin = $("#vin").val();
+                var serie = $("#serie").val();
+                var carid = $("#carId").val();
+                var modelid = $("#idcar").val();
+
+                var word = serie;
+                var key = "serie";
+                var action = 'SearchingSerie';
+                var data = { "serie": serie };
+
+                $("#tablebody").html("");
+                $("#resultmsg").html("");
+                $("#search").html("");
+
+                var chekcked = $("input[name='group1[]']:checked").val();
+                switch (chekcked) {
+                    case "serie": {
+                        key = "serie";
+                        action = "SearchingSerie";
+                        data = { "serie": serie };
+                        word = serie;
+                        if (serie.length > 0 && serie != null) {
+                            loadData(action, data, key, word);
+                            $("#search").append(key + ": " + word);
+
+                        } else {
+                            $("#errorMsg").append("select serie please");
+                        }
+                    } break;
+                    case "vin": {
+                        key = "vin";
+                        action = "SearchingVin";
+                        data = { "vin": vin };
+                        word = vin;
+                        if (vin.length >0 && vin != null) {
+                            loadData(action, data, key, word);
+                            $("#search").append(key + ": " + word);
+                        } else {
+                            $("#errorMsg").append("select vin please");
+                         }
+                    } break;
+                    case "carid": {
+                        key = "car id";
+                        action = "SearchingCar";
+                        data = { "carid": carid };
+                        word = carid;
+                        if (carid != -1 && carid != null) {
+                            loadData(action, data, key, word);
+                            $("#search").append(key + ": " + word);
+                        } else {
+                            $("#errorMsg").append("select car id please");
+                        }
+
+                    } break;
+                    case "model": {
+                        key = "model";
+                        action = "SearchingCar";
+                        data = { "carid": modelid };
+                        word = modelid;
+                        if (modelid!=-1 && modelid!= null) {
+                            loadData(action, data, key, word);
+                            $("#search").append(key + ": " + word);
+                        } else {
+                            $("#errorMsg").append("select a model please");
+                        }
+
+                    } break;
+                }
+            });
+
+            $("#brandSection").change(function (e) {
+               var id = this.value;
+               var first = "<option disabled selected value='-1'>Select a Model</option>"
+               $("#modelSection").html("");
+               $("#modelSection").append(first);
+               $.ajax({
+                   url: '/Manufacter/getModel',
+                   type: "post",
+                   data: { "idm": id },
+                   success: function (data) {
+                       data.forEach(function (element) {
+                           var row = "<option value=" + element.ModelId + ">" + element.modelName + "</option>";
+                           $("#modelSection").append(row);
+                       })
+                   },
+                   error: function () {
+                       console.log("error");
+                   }
+               });
+            });
+
+            $("#modelSection").change(function (e) {
+                var id = this.value;
+                var first = "<option disabled selected value='-1'>Select a carId</option>";
+                console.log("changed " + id);
+                $("#idcar").html("");
+                $("#idcar").append(first);
+                if(id != -1)
+                $.ajax({
+                    url: '/Article/SearchingModelCarId',
+                    type: "post",
+                    data: { "modelId": id },
+                    success: function (data) {
+                        console.log("data");
+                        console.log(data);
+                        data.forEach(function (element) {
+                            console.log(element);
+                            var row = "<option value=" + element.carId + ">"
+                                + "Car Id :  " + element.carId
+                                + " , CC :  " + element.CC
+                                + " , Code Moteur :  " + element.CodeMoteur
+                                + "</option>";
+                            $("#idcar").append(row);
+
+                        })
+                    },
+                    error: function () {
+                        console.log("error");
+                    }
+                });
+            });
+
+        });
+
+        function loadData(action, data, key, word) {
+            $.ajax({
+                url: '/Article/' + action,
+                type: "post",
+                data: data,
+                success: function (data) {
+                    console.log(data);
+                    if (data.length > 0) {
+                        if (table != null) {
+                            table.destroy();
+                        }
+                        $("#table").show();
+                    } else {
+                        $("#resultmsg").append("no result found for " + key + ": " + word);
+                    }
+                    data.forEach(function (element) {
+                        var row = "<tr>"
+                        row += "<td><div class='row'> <div class='col-md-6'>" + element.articleID + "</div> <div class='col-md-6'> <a href='#!' onclick='return getArticle(" + element.articleID + ");'><span class='zmdi zmdi-info'><span/></a></div></div></td>";
+                        row += "<td>" + element.carID + "</td>";
+                        if (element.SortNo == 1) {
+                            row += '<td><input onChange="return onCheck(this,' + element.articleID + ',' + element.carID + ');" name="sort" id="check,' + element.carID + ',' + element.articleID + '" checked type="checkbox" /></td>';
+                        }
+                        else {
+                            row += '<td><input onChange="return onCheck(this,' + element.articleID + ',' + element.carID + ');" name="sort" id="check,' + element.carID + ',' + element.articleID + '" type="checkbox" /></td>';
+                        }
+                        row += "<td><a class='btn btn-success' href='/Article/Assign/" + element.carID + "' >Assign</a></td>"
+                        row += "</tr>"
+                        $("#tablebody").append(row);
+                    })
+                    
+                    table = $('#table').DataTable({
+                        "paging": 10 // false to disable pagination (or any other option)
+                    });
+                },
+                error: function () {
+                    console.log("error");
+                }
+            });
+        }
+
+        function getArticle(ida) {
+            $.ajax({
+                url: '/Article/getArtilce',
+                type: "post",
+                data: { "ida": ida },
+                success: function (data) {
+                    $("#articleSection").html("");
+                    var row = "";
+                    row += "<div>Detail Id :" + data.articleId + "</div>";
+                    row += "<div>Detail Name :" + data.articleName + "</div>";
+                    row += "<div>Detail Number :" + data.articleNo + "</div>";
+                    $("#articleSection").append(row);
+                },
+                error: function () {
+                    console.log("error");
+                }
+            });
+
+        }
+
+        function onCheck(value, ida, idc) {
+          
+            var ga = new Object();
+            var sort = 0;
+            if (value.checked) {
+                sort = 1
+            }
+            ga.carID = idc;
+            ga.articleID = ida;
+            ga.SortNo = sort;
+            console.log(ga);
+            $.ajax({
+                url: '/Details/UpdateDetails',
+                datatype: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(ga),
+                success: function (data) {
+                    console.log("updated");
+                    console.log(data);
+                },
+                error: function () {
+                    console.log("error");
+                }
+            });
+        }
+
+    </script>    
+
+}

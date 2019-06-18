@@ -1,0 +1,256 @@
+﻿@using ParcProject.Models;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="au-card m-b-30">
+            <div class="au-card-inner">
+                <h3 class="title-2 m-b-40">Number Of Articles</h3>
+                <canvas id="singelBarChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="au-card m-b-30">
+            <div class="au-card-inner">
+                <h3 class="title-2 m-b-40">Top Sales - Net </h3>
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="au-card m-b-30">
+            <div class="au-card-inner">
+                <h3 class="title-2 m-b-40">Most Selled Article - Quantity</h3>
+                <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    
+
+<script>
+    $(document).ready(function () {
+
+        try {
+            console.log("okk");
+            // single bar chart
+            var ctx = document.getElementById("singelBarChart");
+            if (ctx) {
+                $.ajax({
+                    url: '/Statistic/getData',
+                    type: "get",
+                    success: function (data) {
+                        ctx.height = 200;
+                        var labels = [];
+                        var values = [];
+                        data.forEach(function (element) {
+                            labels.push(element.label);
+                            values.push(element.value);
+                        });
+                        var myChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: labels,
+                                datasets: [
+                                  {
+                                      label: "Number Of articles",
+                                      data: values,
+                                      borderColor: "rgba(0, 123, 255, 0.9)",
+                                      borderWidth: "0",
+                                      backgroundColor: "rgba(0, 123, 255, 0.5)"
+                                  }
+                                ]
+                            },
+                            options: {
+                                legend: {
+                                    position: 'top',
+                                    labels: {
+                                        fontFamily: 'Poppins'
+                                    }
+
+                                },
+                                scales: {
+                                    xAxes: [{
+                                        ticks: {
+                                            fontFamily: "Poppins"
+
+                                        }
+                                    }],
+                                    yAxes: [{
+                                        ticks: {
+                                            beginAtZero: true,
+                                            fontFamily: "Poppins"
+                                        }
+                                    }]
+                                }
+                            }
+                        });
+                    }
+                } );
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+
+
+        try {
+            //bar chart
+            var bar = document.getElementById("barChart");
+            if (bar) {
+                $.ajax({
+                    url: '/Statistic/getTopSales',
+                    type: "get",
+                    success: function (data) {
+                        var labels = [];
+                        var values = [];
+                        data.forEach(function (e) {
+                            values.push(e.net);
+                            var article = getArticle(e.articleId);
+                            article.then(function (data) {
+                                labels.push(data.articleName);
+                            });
+                        });
+                        bar.height = 200;
+                        setTimeout(function () {
+                            var myChart = new Chart(bar, {
+                                type: 'bar',
+                                defaultFontFamily: 'Poppins',
+                                data: {
+                                    labels: labels,
+                                    datasets: [
+                                      {
+                                          label: "Top Sales",
+                                          data: values,
+                                          borderColor: "rgba(0, 123, 255, 0.9)",
+                                          borderWidth: "0",
+                                          backgroundColor: "rgba(0, 123, 255, 0.5)",
+                                          fontFamily: "Poppins"
+                                      }
+                                    ]
+                                },
+                                options: {
+                                    legend: {
+                                        position: 'top',
+                                        labels: {
+                                            fontFamily: 'Poppins'
+                                        }
+
+                                    },
+                                    scales: {
+                                        xAxes: [{
+                                            ticks: {
+                                                fontFamily: "Poppins"
+
+                                            }
+                                        }],
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero: true,
+                                                fontFamily: "Poppins"
+                                            }
+                                        }]
+                                    }
+                                }
+                            });
+                        },2000)
+                       
+
+                    }
+
+                });
+
+            }
+
+
+        } catch (error) {
+            console.log(error);
+        }
+
+
+        //pie chart
+        var pie = document.getElementById("pieChart");
+        if (pie) {
+            $.ajax({
+                url: '/Statistic/getTopQuantity',
+                type: "get",
+                success: function (data) {
+                    ctx.height = 200;
+                    var labels = [];
+                    var values = [];
+                    data.forEach(function (element) {
+                        var article = getArticle(element.articleId);
+                        values.push(element.Quantity);
+                        article.then(function (data) {
+                            labels.push(data.articleName);
+                        });
+                    });
+                    setTimeout(function () {
+                        var myChart = new Chart(pie, {
+                            type: 'pie',
+                            data: {
+                                datasets: [{
+                                    data: values,
+                                    backgroundColor: [
+                                      "rgba(0, 123, 255,0.9)",
+                                      "rgba(0, 123, 255,0.7)",
+                                      "rgba(0, 123, 255,0.5)",
+                                      "rgba(0,0,0,0.07)"
+                                    ],
+                                    hoverBackgroundColor: [
+                                      "rgba(0, 123, 255,0.9)",
+                                      "rgba(0, 123, 255,0.7)",
+                                      "rgba(0, 123, 255,0.5)",
+                                      "rgba(0,0,0,0.07)"
+                                    ]
+
+                                }],
+                                labels: labels
+                            },
+                            options: {
+                                legend: {
+                                    position: 'top',
+                                    labels: {
+                                        fontFamily: 'Poppins'
+                                    }
+
+                                },
+                                responsive: true
+                            }
+                        });
+                    },2000);
+
+                }
+            });
+          }
+
+
+    })
+
+
+    function getArticle(ida) {
+        return Promise.resolve($.ajax({
+            url: '/Article/getArtilce',
+            type: "post",
+            data: { "ida": ida },
+            success: function (data) {
+                console.log("begin");
+                article = data;
+                return data;
+            },
+            error: function () {
+                console.log("error");
+            }
+        }));
+    }
+
+  </script>    
+}
